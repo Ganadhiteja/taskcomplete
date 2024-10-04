@@ -269,7 +269,7 @@ const DeploymentTable = () => {
 </TableRow>
 
                   {expandedRows[deployment.id] &&
-                    deployment.subItems.map((subItem, index) => (
+                    deployment.subItems?.map((subItem, index) => (
                       <TableRow key={index}  style={{ backgroundColor: '#eff7f4 ' }}>
                         <TableCell></TableCell>
                         <TableCell></TableCell>
