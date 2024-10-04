@@ -9,7 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircle } from '@fortawesome/free-solid-svg-icons';
 import { faSort } from '@fortawesome/free-solid-svg-icons';
 
-// I created a sample data for deployments
+// Sample Data
 const deployments = [
   { id: '12FD12', name: 'Mails Server Cert', authority: 'Digicert', algorithm: 'RSA 2048', expiration: 'Aug 31 2024', status: 'active',
     subItems: [
@@ -37,21 +37,19 @@ const deployments = [
    },
   { id: '12AF13', name: 'RMIS System', authority: 'Digicert', algorithm: 'ECC 384', expiration: 'Aug 12 2024', status: 'active' }
 ];
-
-
 const DeploymentTable = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [expandedRows, setExpandedRows] = useState({});
   const [sortConfig, setSortConfig] = useState({ key: 'id', direction: 'ascending' });
   const [selectedRows, setSelectedRows] = useState([]);
-  const [selectAll, setSelectAll] = useState(false); 
+  const [selectAll, setSelectAll] = useState(false); // State for header checkbox
 
- 
+  // Handle Search
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
   };
 
-
+  // Toggle row expansion
   const toggleRowExpansion = (rowId) => {
     setExpandedRows((prevState) => ({
       ...prevState,
@@ -59,7 +57,7 @@ const DeploymentTable = () => {
     }));
   };
 
- 
+  // Handle Sorting
   const handleSort = (key) => {
     let direction = 'ascending';
     if (sortConfig.key === key && sortConfig.direction === 'ascending') {
@@ -68,6 +66,7 @@ const DeploymentTable = () => {
     setSortConfig({ key, direction });
   };
 
+  // Sort deployments
   const sortedDeployments = [...deployments].sort((a, b) => {
     if (a[sortConfig.key] < b[sortConfig.key]) {
       return sortConfig.direction === 'ascending' ? -1 : 1;
@@ -78,18 +77,17 @@ const DeploymentTable = () => {
     return 0;
   });
 
-
-  // This fucntion Collapses the row when the checkbox is unchecked
   const handleCheckboxChange = (id) => {
     if (selectedRows.includes(id)) {
       setSelectedRows(selectedRows.filter((rowId) => rowId !== id));
-      
+      // Collapse the row when the checkbox is unchecked
       setExpandedRows((prev) => ({
         ...prev,
         [id]: false,
       }));
     } else {
       setSelectedRows([...selectedRows, id]);
+      // Expand the row when the checkbox is checked
       setExpandedRows((prev) => ({
         ...prev,
         [id]: true,
@@ -98,18 +96,18 @@ const DeploymentTable = () => {
   };
   
 
-  
+  // Handle Select All checkbox
   const handleSelectAll = () => {
     if (selectAll) {
-      setSelectedRows([]); 
+      setSelectedRows([]); // Deselect all
     } else {
       const allRowIds = sortedDeployments.map((deployment) => deployment.id);
-      setSelectedRows(allRowIds); 
+      setSelectedRows(allRowIds); // Select all
     }
     setSelectAll(!selectAll);
   };
 
-  
+  // Render status icon
   const renderStatusIcon = (status) => {
     switch (status) {
       case 'active':
@@ -124,47 +122,47 @@ const DeploymentTable = () => {
   };
 
   return (
-    <div style={{ padding: '20px'}}>
+    <div style={{ padding: '20px' }}>
       <Box display="flex" alignItems="center" mb={2}>
         <Button variant="contained"  style={{ marginRight: '20px', height: '40px',backgroundColor: '#3a3b38', color: '#FFC300' }}>
           + Add New
         </Button>
 
         <TextField 
-         placeholder="Search"
-         size="small" 
-          onChange={handleSearch}
-           value={searchTerm}
-            InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-             <Search style={{ color: 'grey' }} />
-          </InputAdornment>
+  placeholder="Search"
+  size="small" // Makes the height smaller
+  onChange={handleSearch}
+  value={searchTerm}
+  InputProps={{
+    startAdornment: (
+      <InputAdornment position="start">
+        <Search style={{ color: 'grey' }} />
+      </InputAdornment>
     ),
   }}
-  style={{ width: '400px' }} 
+  style={{ width: '400px' }} // Adjust the width here to make it smaller
 />
       </Box>
       <TableContainer component={Paper}>
         <Table>
-          <TableHead style={{ backgroundColor: '#44453c'}}>
+          <TableHead style={{ backgroundColor: '#44453c' }}>
             <TableRow>
               <TableCell>
                 <Checkbox
                   checked={selectAll}
-                  onChange={handleSelectAll} 
+                  onChange={handleSelectAll} // Handle select all
                 />
               </TableCell>
               <TableCell></TableCell>
               <TableCell
                 onClick={() => handleSort('id')}
-                style={{ cursor: 'pointer', fontWeight: '500', color: '#FFC300' }}
+                style={{ cursor: 'pointer', lineHeight: '16px', fontWeight: '500', color: '#FFC300' }}
               >
                 DEPLOYMENT ID <FontAwesomeIcon icon={faSort} style={{ color: '#FFC300', marginLeft: '5px' }} />
               </TableCell>
               <TableCell
                 onClick={() => handleSort('name')}
-                style={{ cursor: 'pointer', fontWeight: '500', color: '#FFC300' }}
+                style={{ cursor: 'pointer', lineHeight: '16px', fontWeight: '500', color: '#FFC300' }}
               >
                 NAME <FontAwesomeIcon icon={faSort} style={{ color: '#FFC300', marginLeft: '5px' }} />
               </TableCell>
@@ -211,6 +209,7 @@ const DeploymentTable = () => {
         ) : (
           <ExpandMore
             style={{
+              
               fontWeight: expandedRows[deployment.id] ? 'bold' : 'normal',
               transform: 'rotate(-90deg)'
             }}
@@ -219,7 +218,7 @@ const DeploymentTable = () => {
       </IconButton>
     )}
   </TableCell>
-  <TableCell style={{color:'#1085fa',pointer:'cursor'}}>{deployment.id}</TableCell>
+  <TableCell>{deployment.id}</TableCell>
   <TableCell>{deployment.name}</TableCell>
   <TableCell>{deployment.authority}</TableCell>
   <TableCell>{deployment.algorithm}</TableCell>
@@ -269,12 +268,14 @@ const DeploymentTable = () => {
 </TableRow>
 
                   {expandedRows[deployment.id] &&
-                    deployment.subItems?.map((subItem, index) => (
+                    deployment.subItems.map((subItem, index) => (
                       <TableRow key={index}  style={{ backgroundColor: '#eff7f4 ' }}>
                         <TableCell></TableCell>
                         <TableCell></TableCell>
                         <TableCell></TableCell>
-                        <TableCell><a href={`https://${subItem.name}`} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', color: 'blue' }}>{subItem.name}</a></TableCell>
+                        <TableCell><a href={`https://${subItem.name}`} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', color: 'blue' }}>
+          {subItem.name}
+        </a></TableCell>
                         <TableCell>{subItem.os}</TableCell>
                         <TableCell>{subItem.agent}</TableCell>
                         <TableCell>{subItem.status}</TableCell>
