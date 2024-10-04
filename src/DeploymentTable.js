@@ -124,7 +124,7 @@ const DeploymentTable = () => {
   };
 
   return (
-    <div style={{ padding: '20px' }}>
+    <div style={{ padding: '20px'}}>
       <Box display="flex" alignItems="center" mb={2}>
         <Button variant="contained"  style={{ marginRight: '20px', height: '40px',backgroundColor: '#3a3b38', color: '#FFC300' }}>
           + Add New
@@ -147,7 +147,7 @@ const DeploymentTable = () => {
       </Box>
       <TableContainer component={Paper}>
         <Table>
-          <TableHead style={{ backgroundColor: '#44453c' }}>
+          <TableHead style={{ backgroundColor: '#44453c'}}>
             <TableRow>
               <TableCell>
                 <Checkbox
@@ -158,13 +158,13 @@ const DeploymentTable = () => {
               <TableCell></TableCell>
               <TableCell
                 onClick={() => handleSort('id')}
-                style={{ cursor: 'pointer', lineHeight: '16px', fontWeight: '500', color: '#FFC300' }}
+                style={{ cursor: 'pointer', fontWeight: '500', color: '#FFC300' }}
               >
                 DEPLOYMENT ID <FontAwesomeIcon icon={faSort} style={{ color: '#FFC300', marginLeft: '5px' }} />
               </TableCell>
               <TableCell
                 onClick={() => handleSort('name')}
-                style={{ cursor: 'pointer', lineHeight: '16px', fontWeight: '500', color: '#FFC300' }}
+                style={{ cursor: 'pointer', fontWeight: '500', color: '#FFC300' }}
               >
                 NAME <FontAwesomeIcon icon={faSort} style={{ color: '#FFC300', marginLeft: '5px' }} />
               </TableCell>
@@ -219,7 +219,7 @@ const DeploymentTable = () => {
       </IconButton>
     )}
   </TableCell>
-  <TableCell>{deployment.id}</TableCell>
+  <TableCell style={{color:'#1085fa',pointer:'cursor'}}>{deployment.id}</TableCell>
   <TableCell>{deployment.name}</TableCell>
   <TableCell>{deployment.authority}</TableCell>
   <TableCell>{deployment.algorithm}</TableCell>
